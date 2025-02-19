@@ -8,7 +8,8 @@ using Microsoft.Extensions.Options;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Configuration.AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
+builder.Configuration
+    .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
     .AddJsonFile("appsettings.Development.json", optional: true, reloadOnChange: true)
     .AddEnvironmentVariables();
 
@@ -17,6 +18,12 @@ if (builder.Environment.IsDevelopment())
     builder.Configuration.AddUserSecrets<Program>();
 }
 
+builder.Services.Configure<ApiSettings>(builder.Configuration.GetSection("ApiSettings"));
+var apiSettings = builder.Configuration.GetSection("ApiSettings").Get<ApiSettings>();
+Console.WriteLine($"API Key from configuration: {apiSettings?.ApiKey}");
+Console.WriteLine($"Environment: {builder.Environment.EnvironmentName}");
+
+builder.Services.AddSingleton<ApiService>();
 // Add services to the container.
 builder.Services.AddRazorComponents()
     .AddInteractiveServerComponents();
@@ -39,9 +46,6 @@ builder.Services.AddSession(options =>
     options.Cookie.IsEssential = true;
 });
 builder.Services.AddControllersWithViews();
-
-builder.Services.Configure<ApiSettings>(builder.Configuration.GetSection("ApiSettings"));
-builder.Services.AddSingleton<ApiService>();
 
 var app = builder.Build();
 
@@ -66,10 +70,9 @@ app.Run();
 
 public class ApiSettings
 {
-    public string ApiKey { get; set; }
+    public required string ApiKey { get; set; }
 }
 
-// Service that uses the API key
 public class ApiService
 {
     private readonly string _apiKey;
