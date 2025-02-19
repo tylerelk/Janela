@@ -4,8 +4,18 @@ using Blazorise.Tailwind;
 using Janela.Components;
 using Janela.Data;
 using Janela.Data.Services;
+using Microsoft.Extensions.Options;
 
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Configuration.AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
+    .AddJsonFile("appsettings.Development.json", optional: true, reloadOnChange: true)
+    .AddEnvironmentVariables();
+
+if (builder.Environment.IsDevelopment())
+{
+    builder.Configuration.AddUserSecrets<Program>();
+}
 
 // Add services to the container.
 builder.Services.AddRazorComponents()
@@ -30,6 +40,9 @@ builder.Services.AddSession(options =>
 });
 builder.Services.AddControllersWithViews();
 
+builder.Services.Configure<ApiSettings>(builder.Configuration.GetSection("ApiSettings"));
+builder.Services.AddSingleton<ApiService>();
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -50,3 +63,19 @@ app.MapRazorComponents<App>()
     .AddInteractiveServerRenderMode();
 
 app.Run();
+
+public class ApiSettings
+{
+    public string ApiKey { get; set; }
+}
+
+// Service that uses the API key
+public class ApiService
+{
+    private readonly string _apiKey;
+
+    public ApiService(IOptions<ApiSettings> options)
+    {
+        _apiKey = options.Value.ApiKey;
+    }
+}
