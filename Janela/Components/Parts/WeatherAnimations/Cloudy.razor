@@ -1,0 +1,40 @@
+<div id="cloud-container">
+    @for (var i = 0; i < NumberOfClouds; i++)
+    {
+        <div class="cloud" style="
+            animation-duration: @Speed(); 
+            width: @Width(); 
+            top: @OffsetTop();
+            left: @OffsetLeft()"></div>
+    }
+</div>
+
+@code {
+    private Random _random = new();
+    [Parameter] public double SpeedBase { get; set; } = 1;
+    [Parameter] public int NumberOfClouds { get; set; } = 100;
+
+    private string Speed()
+    {
+        var speed = _random.Next(30, 90) * SpeedBase;
+        return $"{speed}s";
+    }
+
+    private string Width()
+    {
+        var width = _random.Next(12, 20);
+        return $"{width}rem";
+    }
+
+    private string OffsetTop()
+    {
+        var offset = _random.Next(8);
+        return $"{offset}rem";
+    }
+
+    private string OffsetLeft()
+    {
+        var offset = _random.Next(100);
+        return $"{offset}vw";
+    }
+}

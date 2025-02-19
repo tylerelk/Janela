@@ -1,0 +1,41 @@
+<div id="sky" class="absolute w-full h-full overflow-hidden">
+    @for (var i = 0; i < _numberOfFlakes; i++)
+    {
+        <div class="snowflake" style="
+            left: @SnowSpawnPosition();
+            animation-duration: @FallDuration();
+            animation-delay: @FallDelay();
+            @SnowflakeSize()
+        "></div>
+    }
+</div>
+
+@code {
+    [Parameter] public int Severity { get; set; } = 1;
+    private Random _random = new();
+    private int _numberOfFlakes = 100;
+
+    private string SnowSpawnPosition()
+    {
+        var position = _random.Next(0, 100);
+        return $"{position}vw";
+    }
+
+    private string FallDuration()
+    {
+        var speed = _random.Next(10, 30) / Severity;
+        return $"{speed}s";
+    }
+
+    private string FallDelay()
+    {
+        var delay = _random.Next(0, 10);
+        return $"{delay}s";
+    }
+
+    private string SnowflakeSize()
+    {
+        var size = _random.Next(4) * Severity;
+        return $"width: {size}px; height: {size}px";
+    }
+}

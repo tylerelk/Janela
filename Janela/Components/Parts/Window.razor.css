@@ -1,0 +1,40 @@
+span {
+    font-weight: bolder;
+}
+
+#window {
+    width: 100vw;
+    height: 30vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+}
+
+#glass {
+    width: 40%;
+    margin: auto;
+    padding: 1rem;
+    border-radius: 1rem;
+    z-index: 2;
+    p, h1, h3 {
+        color: black;
+    }
+}
+
+@supports (-webkit-backdrop-filter: none) or (backdrop-filter: none) {
+    #glass {
+        -webkit-backdrop-filter: blur(10px);
+        backdrop-filter: blur(10px);
+        background-color: rgba(255, 255, 255, 0.5);
+    }
+}
+
+.weather-attribute {
+    display: flex;
+    justify-content: center;
+    gap: 0.5rem;
+    align-items: center;
+    width: 40%;
+    padding: 1rem;
+}

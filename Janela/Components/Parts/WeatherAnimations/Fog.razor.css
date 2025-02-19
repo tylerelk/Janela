@@ -1,0 +1,41 @@
+#cloud-container {
+    width: 100vw;
+    height: 30%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    overflow: hidden;
+    animation: 4s fade-in;
+    display: flex;
+}
+
+.cloud {
+    animation: 8s float linear infinite;
+    height: 2rem;
+    border-radius: 5rem;
+    flex-shrink: 0;
+    position: absolute;
+}
+
+@keyframes float {
+    0% {
+        transform: translateX(-100%);
+        opacity: 0;
+    }
+    50% {
+        opacity: 1;
+    }
+    100% {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+}
+
+@keyframes fade-in {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}

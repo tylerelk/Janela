@@ -1,0 +1,17 @@
+<div id="rain-cloud">
+    @for (var i = 0; i < Drops; i++)
+    {
+        <div class="rain-drop" style="animation-duration: @FallInterval()"></div>
+    }
+</div>
+
+@code {
+    private const int Drops = 50;
+    static readonly Random Random = new();
+
+    private string FallInterval()
+    {
+        var seconds = Random.Next(750, 1500);
+        return $"{seconds}ms";
+    }
+}

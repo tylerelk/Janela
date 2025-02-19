@@ -1,0 +1,94 @@
+@using Janela.Data
+@inject Globals Globals
+
+@foreach (var cond in _weather!)
+{
+    switch (cond)
+    {
+        case "sunny":
+            {<Sunny/>}
+            break;
+        case "cloudy":
+            if (_weather.Contains("partly"))
+            {
+                {<Sunny/>}
+            }
+            {<Cloudy/>}
+            break;
+        case "overcast":
+            {<Cloudy NumberOfClouds="500" SpeedBase="3"/>}
+            break;
+        case "rain":
+            {<Rain/>}
+            break;
+        case "snow":
+            {<Snow/>}
+            break;
+        case "hail":
+            {<Snow/>}
+            break;
+        case "sleet":
+            {<Snow/>}
+            break;
+        case "drizzle":
+            {<Rain/>}
+            break;
+        case "thundery":
+            {<Lightning/>}
+            break;
+        case "blizzard":
+            {<Snow Severity="6"/>}
+            break;
+        case "fog":
+            {<Fog/>}
+            break;
+        case "ice":
+            {<Snow/>}
+            break;
+        case "thunder":
+            {<Lightning/>}
+            break;
+        case "mist":
+            {<Rain/>};
+            break;
+    }
+}
+
+@code {
+    private string[]? _weather;
+
+    protected override void OnInitialized()
+    {
+        SetWeatherConditions(Globals.Condition!);
+    }
+
+    protected override Task OnAfterRenderAsync(bool firstRender)
+    {
+        SetWeatherConditions(Globals.Condition!);
+        return base.OnAfterRenderAsync(firstRender);
+    }
+
+    private void SetWeatherConditions(string cond)
+    {
+        //Weather conditions from: https://www.weatherapi.com/docs/weather_conditions.json
+        var conditionsSplit = cond.Split(" ");
+        string[] conditionMatches = [
+            "sunny",
+            "cloudy",
+            "overcast",
+            "rain",
+            "snow",
+            "hail",
+            "sleet",
+            "drizzle",
+            "thundery",
+            "blizzard",
+            "fog",
+            "ice",
+            "thunder",
+            "partly",
+            "mist"];
+        _weather = (from s in conditionsSplit where conditionMatches.Contains(s.ToLower()) select s.ToLower()).ToArray();
+        StateHasChanged();
+    }
+}

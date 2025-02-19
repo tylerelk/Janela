@@ -1,0 +1,79 @@
+﻿@page "/"
+@using Janela.Data
+@using Janela.Data.Services.Classes
+@inject IWeatherService WeatherService
+@inject ILocationService LocationService
+
+<PageTitle>Janela</PageTitle>
+@if (_errorFlag)
+{
+    <Alert Color="Color.Danger" Visible>
+        <AlertMessage>Error: </AlertMessage>
+        <AlertDescription>
+            There was a problem loading weather or location data.<br/>    
+        </AlertDescription>
+        <Dropdown>
+            <DropdownToggle Color="Color.Danger">Learn More</DropdownToggle>
+            <DropdownMenu>
+                <DropdownItem Disabled="true" TextColor="TextColor.Dark">This happens most often because the location you searched for is invalid or not found.<br/>It can also occur when weather or location info are not available in Latin Alphabet characters (Cryllic, Malayalam, etc.)</DropdownItem>
+                <DropdownItem Disabled="true" TextColor="TextColor.Dark">Raw error data: @_errorMessage</DropdownItem>
+            </DropdownMenu>
+        </Dropdown>
+    </Alert>
+}
+
+@if (_weather == null)
+{
+    <Loader/>
+}
+else
+{
+    <Window Weather="_weather"/>
+    <div class="w-full h-full flex-col p-2 gap-2"
+         style="background-image: url(@_backgroundImageUrl);
+                background-position-y: center;">
+        <h1 class="self-start font-thin text-white text-4xl p-3 rounded-md shadow-lg" 
+            style="background: rgba(50, 50, 50, 0.8);
+                    backdrop-filter: blur(10px);
+                    -webkit-backdrop-filter: blur(10px);
+                    ">Three-Day Forecast</h1>
+        <ThreeDayForecast Forecast="@_weather.forecast" Location="@($"{_weather.location.name}, {_weather.location.region}")"/>
+    </div>
+}
+
+@code
+{
+    private WeatherResponse? _weather;
+    private Coordinates? _location;
+    private bool _errorFlag = false;
+    private string _errorMessage = string.Empty;
+    private string? _backgroundImageUrl;
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        await GetWeatherData();
+        _errorFlag = false;
+    }
+
+    private async Task GetWeatherData()
+    {
+        try
+        {
+            if (Globals.Location == null)
+            {
+                _location = await LocationService.GetCurrentLocation();
+                Globals.Location = $"{_location.Latitude},{_location.Longitude}";
+            }
+            _weather = await WeatherService.GetWeatherAsync(Globals.Location);
+            _backgroundImageUrl = await LocationService.GetLocationImageUrl(_weather.location.name);
+            Globals.Condition = _weather!.current.condition.text;
+        }
+        catch (Exception e)
+        {
+            _errorFlag = true;
+            _errorMessage = e.Message;
+        }
+
+        StateHasChanged();
+    }
+}

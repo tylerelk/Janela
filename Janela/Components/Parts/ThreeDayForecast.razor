@@ -1,0 +1,97 @@
+@using Janela.Data
+@using Janela.Data.Services.Classes
+@inject ILocationService LocationService
+
+<div class="relative p-4 flex flex-nowrap gap-4 justify-around items-center overflow-hidden">
+    @foreach (var day in Forecast.forecastday)
+    {
+        <div class="w-1/3 flex-grow rounded-lg shadow-lg p-2"
+             style="background: rgba(50, 50, 50, 0.8);
+                    backdrop-filter: blur(10px);
+                    -webkit-backdrop-filter: blur(10px);
+                    ">
+            <div class="flex justify-between items-center">
+                <h2 class="text-3xl">@FormatDate(day.date)</h2>
+                <img src="@day.day.condition.icon" alt="Condition icon"/>
+            </div>
+            <h3 class="text-xl break-normal">@day.day.condition.text</h3>
+            <p class="text-lg black">Average: @(Globals.UseF ? day.day.avgtemp_f : day.day.avgtemp_c)@Globals.ForC()</p>
+            <div class="flex justify-start items-center gap-1">
+                <p>Low: @(Globals.UseF ? day.day.mintemp_f : day.day.mintemp_c)@Globals.ForC()</p>
+                <p> - </p>
+                <p>High: @(Globals.UseF ? day.day.maxtemp_f : day.day.maxtemp_c)@Globals.ForC()</p>
+            </div>
+            <Divider/>
+            <p class="text-center">@GetDescription(day)</p>
+        </div>
+    }
+</div>
+
+@code {
+    [Parameter] public required Forecast Forecast { get; set; }
+    [Parameter] public required string Location { get; set; }
+    private string? _backgroundImageUrl;
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        await GetBackgroundUrl();
+    }
+
+    private async Task GetBackgroundUrl()
+    {
+        try
+        {
+            if (Globals.Location != null) _backgroundImageUrl = await LocationService.GetLocationImageUrl(Location);
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            throw;
+        }
+        StateHasChanged();
+    }
+
+    private static string FormatDate(string date)
+    {
+        var dateParts = date.Split("-");
+        var year = int.Parse(dateParts[0]);
+        var month = int.Parse(dateParts[1]);
+        var day = int.Parse((dateParts[2]));
+        var dateValue = new DateTime(year, month, day);
+        var dayOfWeek = dateValue.ToString("dddd");
+        return $"{dayOfWeek}, {month}/{day}";
+    }
+
+    private string GetDescription(ForecastDay d)
+    {
+        var willRain = d.day.daily_will_it_rain == 1;
+        var willSnow = d.day.daily_will_it_snow == 1;
+        var isCold = d.day.avgtemp_c < Globals.ColdPoint;
+        var isHot = d.day.avgtemp_c > Globals.HotPoint;
+        var description = string.Empty;
+        if (isHot)
+        {
+            description += "Hot today. Consider light clothing and remember to stay hydrated. ";
+        }
+        else if (isCold)
+        {
+            description += "Cold today. Consider layers and a coat. Gloves and a warm hat recommended. ";
+        }
+        else
+        {
+            description += "Moderate temperatures today. Consider light layers. ";
+        }
+
+        if (willRain)
+        {
+            description += "It's likely to rain today. Consider an umbrella and/or hood. ";
+        }
+
+        if (willSnow)
+        {
+            description += "Snowy today. Consider heavy footwear with good traction and a hood.";
+        }
+
+        return description;
+    }
+}

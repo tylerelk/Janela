@@ -1,0 +1,64 @@
+@using Janela.Data
+@using Janela.Data.Services.Classes
+@inject Globals Globals
+
+<div id="window" class="border-b-2 border-gray-800">
+    <div id="glass" class="shadow-lg flex flex-col justify-around gap-2">
+        <div class="flex justify-around items-center">
+            <h1 class="text-3xl font-extralight w-full px-2">@Weather.location.name, @Weather.location.region</h1>
+            <img src="@Weather.current.condition.icon" alt="Current Weather Icon" class="grayscale"/>
+        </div>
+        <Divider/>
+        <div class="flex justify-around items-center w-full">
+            <div class="weather-attribute">
+                <svg width="3rem" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 32 32" xml:space="preserve" fill="#000000"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <style type="text/css"> .st0{fill:none;stroke:#000000;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:10;} .st1{fill:none;stroke:#000000;stroke-width:2;stroke-linejoin:round;stroke-miterlimit:10;} </style> <line class="st0" x1="5" y1="3" x2="5" y2="29"></line> <g> <path class="st0" d="M27,14.38c-6.8,3.75-10.2-0.52-17,3.23c0-4.4,0-6.6,0-11c6.8-0.55,10.2,5.32,17,4.77 C27,12.58,27,13.18,27,14.38z"></path> </g> <line class="st0" x1="10" y1="7" x2="5" y2="11"></line> <line class="st0" x1="5" y1="13" x2="10" y2="17"></line> <line class="st0" x1="14" y1="7.03" x2="14" y2="16.15"></line> <line class="st0" x1="18" y1="8.74" x2="18" y2="15.98"></line> <line class="st0" x1="22" y1="10.64" x2="22" y2="16"></line> </g></svg>
+                <h3>@Weather.current.wind_dir</h3>
+            </div>
+            <div class="weather-attribute">
+                <svg width="3rem" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 32 32" xml:space="preserve" fill="#000000"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <style type="text/css"> .st0{fill:none;stroke:#000000;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:10;} .st1{fill:none;stroke:#000000;stroke-width:2;stroke-linejoin:round;stroke-miterlimit:10;} </style> <path class="st0" d="M15,17.81V6c0-1.66-1.34-3-3-3S9,4.34,9,6v11.81C7.21,18.85,6,20.78,6,23c0,3.31,2.69,6,6,6s6-2.69,6-6 C18,20.78,16.79,18.85,15,17.81z"></path> <circle class="st0" cx="12" cy="23" r="3"></circle> <line class="st0" x1="12" y1="13" x2="12" y2="20"></line> <line class="st0" x1="20" y1="6" x2="25" y2="6"></line> <line class="st0" x1="20" y1="10" x2="22" y2="10"></line> <line class="st0" x1="20" y1="14" x2="25" y2="14"></line> <line class="st0" x1="20" y1="18" x2="22" y2="18"></line> </g></svg>
+                @if (Globals.UseF)
+                {
+                    <h3>@Weather.current.temp_f<span>°F</span></h3>
+                }
+                else
+                {
+                    <h3>@Weather.current.temp_c<span>°C</span></h3>
+                }
+            </div>
+            <div class="weather-attribute">
+                <svg width="3rem" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 32 32" xml:space="preserve" fill="#000000"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <style type="text/css"> .st0{fill:none;stroke:#000000;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:10;} .st1{fill:none;stroke:#000000;stroke-width:2;stroke-linejoin:round;stroke-miterlimit:10;} </style> <line class="st0" x1="16" y1="3" x2="16" y2="5"></line> <path class="st0" d="M16,18v8v0.5c0,1.38-1.12,2.5-2.5,2.5S11,27.88,11,26.5"></path> <path class="st0" d="M27,11c0,2.21-1.79,4-4,4s-4-1.79-4-4s4-8,4-8S27,8.79,27,11z"></path> <path class="st0" d="M21.08,6.03C19.52,5.37,17.8,5,16,5C8.82,5,3,10.82,3,18h26c0-2.45-0.68-4.75-1.86-6.71"></path> </g></svg>
+                @if (Globals.UseF)
+                {
+                    <h3>@Weather.current.precip_in<span>in</span></h3>
+                }
+                else
+                {
+                    <h3>@Weather.current.precip_mm<span>mm</span></h3>
+                }
+            </div>
+            @if (Weather.alerts.alert.Length > 0)
+            {
+                <Divider/>
+                <Alert Color="Color.Danger" Visible>
+                    <AlertMessage>Weather Advisory:</AlertMessage>
+                    <AlertDescription>
+                        <ul>
+                            @foreach (var alert in Weather.alerts.alert)
+                            {
+                                <li>@alert</li>
+                            }
+                        </ul>
+                    </AlertDescription>
+                </Alert>
+            }
+        </div>
+    </div>
+    <WeatherPicker />
+</div>
+
+
+@code
+{
+    [Parameter] public required string CurrentCondition { get; set; }
+    [Parameter] public required WeatherResponse Weather { get; set; }
+}
