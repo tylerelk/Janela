@@ -1,0 +1,61 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "G:\\repos\\Janela\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{56EC93DE-61BE-43FC-83AA-CCD5175E3EF8}|Janela\\Janela.csproj|g:\\repos\\janela\\janela\\components\\layout\\mainlayout.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{56EC93DE-61BE-43FC-83AA-CCD5175E3EF8}|Janela\\Janela.csproj|solutionrelative:janela\\components\\layout\\mainlayout.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{56EC93DE-61BE-43FC-83AA-CCD5175E3EF8}|Janela\\Janela.csproj|g:\\repos\\janela\\janela\\components\\parts\\window.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{56EC93DE-61BE-43FC-83AA-CCD5175E3EF8}|Janela\\Janela.csproj|solutionrelative:janela\\components\\parts\\window.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 2,
+          "Children": [
+            {
+              "$type": "Bookmark",
+              "Name": "ST:128:0:{116d2292-e37d-41cd-a077-ebacac4c8cc4}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{1c4feeaa-4718-4aa9-859d-94ce25d182ba}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "MainLayout.razor",
+              "DocumentMoniker": "G:\\repos\\Janela\\Janela\\Components\\Layout\\MainLayout.razor",
+              "RelativeDocumentMoniker": "Janela\\Components\\Layout\\MainLayout.razor",
+              "ToolTip": "G:\\repos\\Janela\\Janela\\Components\\Layout\\MainLayout.razor",
+              "RelativeToolTip": "Janela\\Components\\Layout\\MainLayout.razor",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABEAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-02-20T22:41:22.896Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "Window.razor",
+              "DocumentMoniker": "G:\\repos\\Janela\\Janela\\Components\\Parts\\Window.razor",
+              "RelativeDocumentMoniker": "Janela\\Components\\Parts\\Window.razor",
+              "ToolTip": "G:\\repos\\Janela\\Janela\\Components\\Parts\\Window.razor",
+              "RelativeToolTip": "Janela\\Components\\Parts\\Window.razor",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABkAAAARAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-02-20T22:04:34.98Z"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

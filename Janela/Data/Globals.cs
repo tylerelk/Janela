@@ -1,3 +1,6 @@
+using Blazorise;
+using Alert = Janela.Data.Services.Classes.Alert;
+
 namespace Janela.Data;
 
 public class Globals

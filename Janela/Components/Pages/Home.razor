@@ -7,7 +7,7 @@
 <PageTitle>Janela</PageTitle>
 @if (_errorFlag)
 {
-    <Alert Color="Color.Danger" Visible>
+    <Alert Color="Color.Danger" Visible Style="z-index: 50;">
         <AlertMessage>Error: </AlertMessage>
         <AlertDescription>
             There was a problem loading weather or location data.<br/>    
@@ -29,14 +29,25 @@
 else
 {
     <Window Weather="_weather"/>
-    <div class="w-full h-full flex-col p-2 gap-2"
+    <div class="w-full -h-screen flex-col p-2 gap-2"
          style="background-image: url(@_backgroundImageUrl);
                 background-position-y: center;">
-        <h1 class="self-start font-thin text-white text-4xl p-3 rounded-md shadow-lg" 
-            style="background: rgba(50, 50, 50, 0.8);
+         @if(_weather.alerts.alert!.Length > 0)
+         {
+            <h1 class="self-start font-thin text-white text-4xl p-3 rounded-md shadow-lg"
+                style="background: rgba(50, 50, 50, 0.8);
                     backdrop-filter: blur(10px);
                     -webkit-backdrop-filter: blur(10px);
-                    ">Three-Day Forecast</h1>
+                                ">
+                Weather Alerts
+            </h1>
+            <AlertBox WeatherAlerts="_weather.alerts" />
+         }
+        <h1 class="self-start font-thin text-white text-4xl p-3 rounded-md shadow-lg" 
+        style="background: rgba(50, 50, 50, 0.8);
+                    backdrop-filter: blur(10px);
+                    -webkit-backdrop-filter: blur(10px);
+                        ">Three-Day Forecast</h1>
         <ThreeDayForecast Forecast="@_weather.forecast" Location="@($"{_weather.location.name}, {_weather.location.region}")"/>
     </div>
 }
@@ -65,7 +76,7 @@ else
                 Globals.Location = $"{_location.Latitude},{_location.Longitude}";
             }
             _weather = await WeatherService.GetWeatherAsync(Globals.Location);
-            _backgroundImageUrl = await LocationService.GetLocationImageUrl(_weather.location.name);
+            _backgroundImageUrl = await LocationService.GetLocationImageUrl(_weather!.location.name);
             Globals.Condition = _weather!.current.condition.text;
         }
         catch (Exception e)
