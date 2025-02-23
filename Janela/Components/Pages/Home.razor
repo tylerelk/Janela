@@ -32,6 +32,12 @@ else
     <div class="w-full -h-screen flex-col p-2 gap-2"
          style="background-image: url(@_backgroundImageUrl);
                 background-position-y: center;">
+        <h1 class="self-start font-thin text-white text-4xl p-3 rounded-md shadow-lg"
+            style="background: rgba(50, 50, 50, 0.8);
+                    backdrop-filter: blur(10px);
+                    -webkit-backdrop-filter: blur(10px);
+                        ">Three-Day Forecast</h1>
+        <ThreeDayForecast Forecast="@_weather.forecast" Location="@($"{_weather.location.name}, {_weather.location.region}")"/>
          @if(_weather.alerts.alert!.Length > 0)
          {
             <h1 class="self-start font-thin text-white text-4xl p-3 rounded-md shadow-lg"
@@ -43,12 +49,6 @@ else
             </h1>
             <AlertBox WeatherAlerts="_weather.alerts" />
          }
-        <h1 class="self-start font-thin text-white text-4xl p-3 rounded-md shadow-lg" 
-        style="background: rgba(50, 50, 50, 0.8);
-                    backdrop-filter: blur(10px);
-                    -webkit-backdrop-filter: blur(10px);
-                        ">Three-Day Forecast</h1>
-        <ThreeDayForecast Forecast="@_weather.forecast" Location="@($"{_weather.location.name}, {_weather.location.region}")"/>
     </div>
 }
 

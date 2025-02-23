@@ -1,58 +1,60 @@
 @using Janela.Data
 @inject Globals Globals
 
-@foreach (var cond in _weather!)
-{
-    switch (cond)
+<div class="w-full h-full absolute top-0 left-0">
+    @foreach (var cond in _weather!)
     {
-        case "sunny":
+        switch (cond)
+        {
+            case "sunny":
             {<Sunny/>}
-            break;
-        case "cloudy":
-            if (_weather.Contains("partly"))
-            {
-                {<Sunny/>}
-            }
+                break;
+            case "cloudy":
+                if (_weather.Contains("partly"))
+                {
+                    {<Sunny/>}
+                }
             {<Cloudy/>}
-            break;
-        case "overcast":
+                break;
+            case "overcast":
             {<Cloudy NumberOfClouds="500" SpeedBase="3"/>}
-            break;
-        case "rain":
+                break;
+            case "rain":
             {<Rain/>}
-            break;
-        case "snow":
+                break;
+            case "snow":
             {<Snow/>}
-            break;
-        case "hail":
+                break;
+            case "hail":
             {<Snow/>}
-            break;
-        case "sleet":
+                break;
+            case "sleet":
             {<Snow/>}
-            break;
-        case "drizzle":
+                break;
+            case "drizzle":
             {<Rain/>}
-            break;
-        case "thundery":
+                break;
+            case "thundery":
             {<Lightning/>}
-            break;
-        case "blizzard":
+                break;
+            case "blizzard":
             {<Snow Severity="6"/>}
-            break;
-        case "fog":
+                break;
+            case "fog":
             {<Fog/>}
-            break;
-        case "ice":
+                break;
+            case "ice":
             {<Snow/>}
-            break;
-        case "thunder":
+                break;
+            case "thunder":
             {<Lightning/>}
-            break;
-        case "mist":
+                break;
+            case "mist":
             {<Rain/>};
-            break;
-    }
-}
+                break;
+        }
+    }    
+</div>
 
 @code {
     private string[]? _weather;

@@ -4,17 +4,14 @@ span {
 
 #window {
     width: 100vw;
-    height: 30vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    height: 100%;
     position: relative;
     overflow-x: hidden;
 }
 
 #glass {
     width: 40%;
-    margin: auto;
+    margin: 2rem auto;
     padding: 1rem;
     border-radius: 1rem;
     z-index: 2;
@@ -33,9 +30,8 @@ span {
 
 .weather-attribute {
     display: flex;
-    justify-content: center;
+    justify-content: flex-start;
     gap: 0.5rem;
     align-items: center;
-    width: 40%;
-    padding: 1rem;
+    flex-shrink: 1;
 }

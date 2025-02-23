@@ -6,7 +6,6 @@
     top: 0;
     left: 0;
     overflow-y: hidden;
-    margin-left: -100%;
     animation: 8s fade-in;
     display: flex;
     justify-content: end;
