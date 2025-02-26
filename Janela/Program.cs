@@ -32,12 +32,12 @@ builder.Services.AddHttpClient();
 builder.Services.AddSingleton<IWeatherService, WeatherService>();
 builder.Services.AddTransient<ILocationService, LocationService>();
 builder.Services.AddScoped<Globals>();
-//Blazorise
+//Add Blazorise
 builder.Services
     .AddBlazorise()
     .AddTailwindProviders()
     .AddFontAwesomeIcons();
-//Device detection
+//Add Device detection
 builder.Services.AddDetection();
 builder.Services.AddSession(options =>
 {

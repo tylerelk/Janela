@@ -1,0 +1,38 @@
+@using Janela.Data
+@using Janela.Data.Services.Classes
+
+<div class="flex justify-around rounded-md border-2 border-gray-400 w-full p-2 overflow-x-scroll">
+    @if (_hours != null)
+    {
+        @foreach (var hour in _hours)
+        {
+            <div style="display: flex; flex-direction: column; align-items: center; justify-content: flex-end; height: 100%">
+                <p class="mx-auto mb-2">@(Globals.UseF ? hour.temp_f : hour.temp_c)@Globals.ForC()</p>
+                <div style="width: 1rem; 
+                            height: 10rem; 
+                            overflow-y: hidden;
+                            background: rgb(216,223,223);
+                            background: linear-gradient(0deg, rgba(216,223,223,1) @hour.temp_f%, rgba(0,0,0,0) @(hour.temp_f + 25)%);">
+                </div>
+                <h2 class="mx-auto mt-2 text-center">@GetTime(hour.time)</h2>
+            </div>
+        }
+    }
+</div>
+
+@code {
+    [Parameter] public required Forecast? Forecast { get; set; }
+    private List<Hour>? _hours;
+
+    private string GetTime(string time)
+    {
+        return time.Split(" ")[1];
+    }
+
+    protected override Task OnAfterRenderAsync(bool firstRender)
+    {
+        _hours = Forecast.forecastday[0].hour;
+        return base.OnAfterRenderAsync(firstRender);
+    }
+
+}
