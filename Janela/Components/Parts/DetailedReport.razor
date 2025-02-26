@@ -2,7 +2,7 @@
 @using Janela.Data.Services.Classes
 @inject Globals Globals
 
-<div class="w-full p-4 grid grid-cols-3 grid-rows-3 gap-3">
+<div class="w-full p-4 grid grid-cols-3 grid-rows-2 gap-3">
     <div class="rounded-lg shadow-lg p-2 col-span-3 flex-col"
          style="background: rgba(50, 50, 50, 0.8);
                     backdrop-filter: blur(10px);
@@ -17,7 +17,17 @@
                     -webkit-backdrop-filter: blur(10px);
                     ">
         <h1>Precipitation</h1>
-        
+        <PrecipPredictor Day="Weather.forecast.forecastday[0].day"/>
+        <div class="absolute top-0 left-0 z-50 w-full h-full">
+            @if (Weather.forecast.forecastday[0].day.daily_chance_of_rain > 10)
+            {
+                <Rain/>
+            }
+            @if (Weather.forecast.forecastday[0].day.daily_chance_of_snow > 10)
+            {
+                <Snow/>
+            }
+        </div>
     </div>
     <div class="rounded-lg shadow-lg p-2"
          style="background: rgba(50, 50, 50, 0.8);

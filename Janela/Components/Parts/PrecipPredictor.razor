@@ -1,0 +1,42 @@
+@using Janela.Data.Services.Classes
+
+<div style="width: 100%;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center">
+    <div>
+        <div class="flex justify-around items-center gap-2 bg-gray-700 rounded-lg p-2 m-2">
+            <p class="text-center font-thin mb-0">Chance of Rain: @Day.daily_chance_of_rain%</p>
+            <img src="images/svg/rainIcon.svg" alt="Rain" style="width: 4rem;
+                                                                 height: 4rem; 
+                                                                 border-radius: 50%; 
+                                                                 border: 3px solid aliceblue;
+                                                                 padding: 1rem;
+                                                                 background: rgb(0,213,255);
+                                                                 background: radial-gradient(circle, rgba(0,213,255,1) 0%, rgba(255,255,255,1) @Day.daily_chance_of_rain%);"/>
+        </div>
+        <div class="flex justify-around items-center gap-2 bg-gray-700 rounded-lg p-2 m-2">
+            <p class="text-center font-thin mb-0">Chance of Snow: @Day.daily_chance_of_snow%</p>
+            <img src="images/svg/snowIcon.svg" alt="Snow" style="width: 4rem;
+                                                                    height: 4rem;
+                                                                    border-radius: 50%;
+                                                                    border: 3px solid aliceblue;
+                                                                    padding: 1rem;
+                                                                    background: rgb(140,118,214);
+                                                                    background: radial-gradient(circle, rgba(140,118,214,1) 0%, rgba(255,255,255,1) @Day.daily_chance_of_snow%);"/>
+        </div>
+    </div>
+</div>
+
+@code
+{
+    [Parameter] public required Day Day { get; set; }
+    private int _spread;
+
+    protected override Task OnAfterRenderAsync(bool firstRender)
+    {
+        _spread = Math.Max(Day.daily_chance_of_rain, Day.daily_chance_of_snow);
+        return base.OnAfterRenderAsync(firstRender);
+    }
+}
