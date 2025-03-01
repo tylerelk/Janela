@@ -2,8 +2,8 @@
 @using Janela.Data.Services.Classes
 @inject Globals Globals
 
-<div class="w-full p-4 grid grid-cols-3 grid-rows-2 gap-3">
-    <div class="rounded-lg shadow-lg p-2 col-span-3 flex-col"
+<div class="w-full p-4 grid grid-cols-3 grid-rows-1 gap-3">
+    <div class="rounded-lg shadow-lg p-2 col-span-2 flex-col"
          style="background: rgba(50, 50, 50, 0.8);
                     backdrop-filter: blur(10px);
                     -webkit-backdrop-filter: blur(10px);
@@ -29,15 +29,15 @@
             }
         </div>
     </div>
-    <div class="rounded-lg shadow-lg p-2"
-         style="background: rgba(50, 50, 50, 0.8);
-                    backdrop-filter: blur(10px);
-                    -webkit-backdrop-filter: blur(10px);
-                    ">
-        <h1></h1>
-    </div>
 </div>
 
 @code {
     [Parameter] public required WeatherResponse? Weather { get; set; }
+
+    private bool TempsRise()
+    {
+        var startTemp = Weather.forecast.forecastday[0].hour[0].temp_c;
+        var compareTemp = Weather.forecast.forecastday[0].day.avgtemp_c;
+        return startTemp < compareTemp;
+    }
 }

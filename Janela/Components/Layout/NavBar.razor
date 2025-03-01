@@ -4,8 +4,7 @@
 @inject Globals Globals
 @inject Wangkanai.Detection.Services.IDetectionService DetectionService
 
-<div class="w-full relative top-0 left-0 h-auto bg-gradient-to-l from-transparent to-gray-800 p-4 flex justify-between items-center"
-     style="z-index: 2">
+<div class="w-full relative top-0 left-0 h-auto bg-gradient-to-l from-transparent to-gray-800 p-4 flex justify-between items-center" style="z-index: 9999">
     @if ((DetectionService.Device.Type & Device.Mobile) != 0)
     {
         <h1>TESTING MOBILE</h1>

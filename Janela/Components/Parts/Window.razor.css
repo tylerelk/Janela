@@ -11,7 +11,7 @@ span {
     background: #0a0c5d;
     background: -webkit-linear-gradient(180deg, #0a0c5d 0%, #3b3c72 40%, rgba(0, 0, 0, 0) 100%);
     background: linear-gradient(180deg, #0a0c5d 0%, #3b3c72 40%, rgba(0, 0, 0, 0) 100%);
-    z-index: 100;
+    z-index: 1000;
 }
 
 #glass {
