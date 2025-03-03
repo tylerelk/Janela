@@ -3,17 +3,30 @@
 @inject Globals Globals
 
 <div id="window" >
-    <div id="glass" class="shadow-2xl flex flex-col justify-around gap-2 m-auto z-20">
-        <div class="flex justify-between items-center">
+    <div id="glass" class="shadow-2xl z-20 m-auto flex flex-col justify-around gap-2">
+        <div class="flex justify-start items-start gap-6">
             <div>
                 <h1 class="text-3xl font-extralight w-full">@Weather.location.name, @Weather.location.region</h1>
                 <p class="text-lg font-thin">@Weather.current.condition.text</p>
             </div>
             <img src="@Weather.current.condition.icon" alt="Current Weather Icon"/>
         </div>
-        <div class="flex justify-between items-center w-full h-full">
+        <div class="flex justify-between items-center">
             <h1 class="font-thin tracking-tighter" style="font-size: 100px">@(@Globals.UseF ? Weather.current.temp_f : Weather.current.temp_c)@Globals.ForC()</h1>
-            <WindowIcons Weather="@Weather"/>
+            <ul class="w-full h-full">
+                <li class="flex justify-end items-center gap-4">
+                    <h4 class="text-gray-900">@(_isRaining ? "It's currently raining" : "")</h4>
+                    <img src="images/svg/rainIcon.svg" alt="Rain Icon" class="w-10 h-10 rounded-full transition @(_isRaining ? "bg-blue-400" : "")"/>
+                </li>
+                <li class="flex justify-end items-center gap-4">
+                    <h4 class="text-gray-900">@(_isSnowing ? "It's currently snowing" : "")</h4>
+                    <img src="images/svg/snowIcon.svg" alt="Snow Icon" class="w-10 h-10 rounded-full transition @(_isSnowing ? "bg-purple-400" : "")"/>
+                </li>
+                <li class="flex justify-end items-center gap-4">
+                    <h4 class="text-gray-900">@(_weatherAlertsPresent ? "There are local weather alerts; see below" : "")</h4>
+                    <img src="images/svg/stormIcon.svg" alt="Alert Icon" class="w-10 h-10 rounded-full transition @(_weatherAlertsPresent ? "bg-red-500" : "")"/>
+                </li>
+            </ul>
         </div>
     </div>
     <WeatherPicker />
@@ -23,4 +36,16 @@
 {
     [Parameter] public required string CurrentCondition { get; set; }
     [Parameter] public required WeatherResponse Weather { get; set; }
+    private bool _isRaining;
+    private bool _isSnowing;
+    private bool _weatherAlertsPresent;
+
+    protected override Task OnAfterRenderAsync(bool firstRender)
+    {
+        _isRaining = Weather.current.condition.text.Contains("rain");
+        _isSnowing = Weather.current.condition.text.Contains("snow");
+        _weatherAlertsPresent = Weather.alerts.alert?.Length > 0;
+
+        return base.OnAfterRenderAsync(firstRender);
+    }
 }

@@ -37,7 +37,7 @@
         </OffcanvasBody>
     </Offcanvas>
     <div class="flex justify-end items-center gap-2">
-        <Button Clicked="() => _offcanvasRef.Show()" Color="Color.Dark">Options</Button>
+        <Button Clicked="() => _offcanvasRef.Show()" Color="Color.Dark" Class="animate-pulse">Options</Button>
         <Switch TValue="bool" @bind-Checked="@Globals.UseF"><span class="text-white">@(Globals.UseF ? "F\u00b0" : "C\u00b0")</span></Switch>
     </div>
 </div>

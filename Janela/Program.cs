@@ -20,8 +20,6 @@ if (builder.Environment.IsDevelopment())
 
 builder.Services.Configure<ApiSettings>(builder.Configuration.GetSection("ApiSettings"));
 var apiSettings = builder.Configuration.GetSection("ApiSettings").Get<ApiSettings>();
-Console.WriteLine($"API Key from configuration: {apiSettings?.ApiKey}");
-Console.WriteLine($"Environment: {builder.Environment.EnvironmentName}");
 
 builder.Services.AddSingleton<ApiService>();
 // Add services to the container.
