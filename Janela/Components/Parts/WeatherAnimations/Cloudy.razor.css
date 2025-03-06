@@ -7,6 +7,7 @@
     overflow: hidden;
     animation: 4s fade-in;
     display: flex;
+    z-index: -5;
 }
 
 .cloud {
