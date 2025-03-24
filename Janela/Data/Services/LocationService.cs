@@ -30,6 +30,10 @@ public class LocationService : ILocationService
 
     public async Task<string?> GetLocationImageUrl(string location)
     {
+        if (Globals.BgImageUrls.ContainsKey(location))
+        {
+            return Globals.BgImageUrls[location];
+        }
         var url = $"{unsplashUrl}?client_id={unsplashApiKey}&orientation=landscape&per_page=1&query={location}";
         try
         {
@@ -40,6 +44,7 @@ public class LocationService : ILocationService
             if (decoded.TryGetProperty("results", out var results) && results[0].TryGetProperty("urls", out var urls))
             {
                 rawUrl = urls.GetProperty("raw").GetString();
+                Globals.BgImageUrls[location] = rawUrl!;
             }
 
             return rawUrl;

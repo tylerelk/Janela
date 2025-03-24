@@ -11,7 +11,9 @@ public class Globals
     //Hot and Cold points should be stored as C
     public static int ColdPoint { get; set; } = 7;
     public static int HotPoint { get; set; } = 27;
+    public static Dictionary<string, string> BgImageUrls { get; set; } = new();
 
+    //Utility to show correct units based on user preference
     public static string ForC()
     {
         var result = UseF ? "\u00b0F" : "\u00b0C";
