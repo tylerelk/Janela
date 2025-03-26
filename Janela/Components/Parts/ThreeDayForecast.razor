@@ -3,10 +3,10 @@
 @inject ILocationService LocationService
 
 
-<div class="relative p-4 flex flex-nowrap gap-4 justify-between items-center overflow-hidden">
+<div class=@($"relative p-4 flex gap-4 justify-between items-center overflow-hidden {(Globals.IsMobile ? "flex-col" : "flex-nowrap")}")>
     @foreach (var day in Forecast.forecastday)
     {
-        <div class="w-1/3 flex-grow rounded-lg shadow-lg p-2"
+        <div class=@($"rounded-lg shadow-lg p-2 {(Globals.IsMobile ? "w-ful" : "w-1/3")}")
              style="background: rgba(50, 50, 50, 0.8);
                     backdrop-filter: blur(10px);
                     -webkit-backdrop-filter: blur(10px);

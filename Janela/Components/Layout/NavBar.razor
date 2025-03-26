@@ -4,43 +4,88 @@
 @inject Globals Globals
 @inject Wangkanai.Detection.Services.IDetectionService DetectionService
 
-<div class="w-full relative top-0 left-0 h-auto bg-gradient-to-l from-transparent to-gray-800 p-4 flex justify-between items-center" style="z-index: 9999">
-    @if ((DetectionService.Device.Type & Device.Mobile) != 0)
-    {
-        <h1>TESTING MOBILE</h1>
-    }
-    <div class="flex justify-around items-center gap-4">
-        <h1 class="text-3xl text-white font-thin">Janela</h1>
-        <input type="text" @bind="_userInput" placeholder="Location" class="rounded-lg"/>
-        <button class="bg-gray-800 text-white font-extralight rounded-lg p-2" @onclick="ChangeLocation">Change Location</button>
-        <button class="bg-gray-800 text-white font-extralight rounded-lg p-2" @onclick="GetCurrentLocation">Current Location</button>
+@if (Globals.IsMobile)
+{
+    <Bar Mode="BarMode.VerticalInline" CollapseMode="BarCollapseMode.Small" Style="z-index: 9999" ThemeContrast="ThemeContrast.Dark">
+        <BarBrand>
+            <BarItem>
+                <BarLink To="/" Class="font-thin text-white text-2xl">Janela</BarLink>
+            </BarItem>
+        </BarBrand>
+        <BarMenu>
+            <BarStart>
+                <BarItem>
+                    <BarDropdown>
+                        <BarDropdownToggle>Options</BarDropdownToggle>
+                        <BarDropdownMenu>
+                            <BarDropdownItem>
+                                <Div Class="flex justify-around items-center">
+                                    <Button @onclick="GetCurrentLocation">
+                                        <Icon Name="IconName.LocationArrow"/>
+                                    </Button>
+                                    <Button @onclick="ChangeLocation">
+                                        <Icon Name="IconName.Search"/>
+                                    </Button>
+                                    <TextEdit @bind-Value=_userInput class="rounded-lg text-black" Placeholder="Location..."></TextEdit>
+                                </Div>
+                            </BarDropdownItem>
+                            <BarDropdownItem Class="w-full">
+                                <Label>I feel cold at: @((int)(Globals.UseF ? ConvertToF(_coldPoint) : _coldPoint)) @Globals.ForC()</Label>
+                                <Slider TValue="double" @bind-Value="_coldPoint" Min="-100" Max="100" Blur=@ChangeHeatPoints/>
+                            </BarDropdownItem>
+                            <BarDropdownItem>
+                                <Label>I feel hot at: @((int)(Globals.UseF ? ConvertToF(_hotPoint) : _hotPoint)) @Globals.ForC()</Label>
+                                <Slider TValue="double" @bind-Value="_hotPoint" Min="-100" Max="100" Blur=@ChangeHeatPoints/>
+                            </BarDropdownItem>
+                            <BarDropdownItem>
+                                <Div Class="flex items-center gap-4">
+                                    <Label>Temperature Units:</Label>
+                                    <Switch TValue="bool" @bind-Checked="@Globals.UseF"><span class="text-white">@(Globals.UseF ? "F\u00b0" : "C\u00b0")</span></Switch>
+                                </Div>
+                            </BarDropdownItem>
+                        </BarDropdownMenu>
+                    </BarDropdown>
+                </BarItem>
+            </BarStart>
+        </BarMenu>
+    </Bar>
+}
+else
+{
+    <div class="w-full relative top-0 left-0 h-auto bg-gradient-to-l from-transparent to-gray-800 p-4 flex justify-between items-center" style="z-index: 9999">
+        <div class="flex justify-around items-center gap-4">
+            <h1 class="text-3xl text-white font-thin">Janela</h1>
+            <input type="text" @bind="_userInput" placeholder="Location" class="rounded-lg"/>
+            <button class="bg-gray-800 text-white font-extralight rounded-lg p-2" @onclick="ChangeLocation">Change Location</button>
+            <button class="bg-gray-800 text-white font-extralight rounded-lg p-2" @onclick="GetCurrentLocation">Current Location</button>
+        </div>
+        <Offcanvas @ref="_offcanvasRef" ShowBackdrop Placement="Placement.End" Closing="@OnOffcanvasClosing">
+            <OffcanvasHeader>
+                <Heading Size="HeadingSize.Is2">Options</Heading>
+                <CloseButton Clicked="() => _offcanvasRef.Hide()"/>
+            </OffcanvasHeader>
+            <OffcanvasBody TextColor="TextColor.Light" Background="Background.Dark">
+                <div class="w-full h-auto m-auto">
+                    <Label>Cold Point:</Label>
+                    <Field>
+                        <Slider TValue="double" @bind-Value="_coldPoint" Min="-100" Max="100"/>
+                        <p>I feel cold at about @((int)(Globals.UseF ? ConvertToF(_coldPoint) : _coldPoint)) @Globals.ForC()</p>
+                    </Field>
+                    <Label>Hot Point:</Label>
+                    <Field>
+                        <Slider TValue="double" @bind-Value="_hotPoint" Min="-100" Max="100"/>
+                        <p>I feel hot at about @((int)(Globals.UseF ? ConvertToF(_hotPoint) : _hotPoint)) @Globals.ForC()</p>
+                    </Field>
+                    <Button Color="Color.Success" Clicked="@ChangeHeatPoints">Update</Button>
+                </div>
+            </OffcanvasBody>
+        </Offcanvas>
+        <div class="flex justify-end items-center gap-2">
+            <Button Clicked="() => _offcanvasRef.Show()" Color="Color.Dark" Class="animate-pulse">Options</Button>
+            <Switch TValue="bool" @bind-Checked="@Globals.UseF"><span class="text-white">@(Globals.UseF ? "F\u00b0" : "C\u00b0")</span></Switch>
+        </div>
     </div>
-    <Offcanvas @ref="_offcanvasRef" ShowBackdrop Placement="Placement.End" Closing="@OnOffcanvasClosing">
-        <OffcanvasHeader>
-            <Heading Size="HeadingSize.Is2">Options</Heading>
-            <CloseButton Clicked="() => _offcanvasRef.Hide()"/>
-        </OffcanvasHeader>
-        <OffcanvasBody TextColor="TextColor.Light" Background="Background.Dark">
-            <div class="w-full h-auto m-auto">
-                <Label>Cold Point:</Label>
-                <Field>
-                    <Slider TValue="double" @bind-Value="_coldPoint" Min="-100" Max="100"/>
-                    <p>I feel cold at about @((int)(Globals.UseF ? ConvertToF(_coldPoint) : _coldPoint)) @ForC()</p>
-                </Field>
-                <Label>Hot Point:</Label>
-                <Field>
-                    <Slider TValue="double" @bind-Value="_hotPoint" Min="-100" Max="100"/>
-                    <p>I feel hot at about @((int)(Globals.UseF ? ConvertToF(_hotPoint) : _hotPoint)) @ForC()</p>
-                </Field>
-                <Button Color="Color.Success" Clicked="@ChangeHeatPoints">Update</Button>
-            </div>
-        </OffcanvasBody>
-    </Offcanvas>
-    <div class="flex justify-end items-center gap-2">
-        <Button Clicked="() => _offcanvasRef.Show()" Color="Color.Dark" Class="animate-pulse">Options</Button>
-        <Switch TValue="bool" @bind-Checked="@Globals.UseF"><span class="text-white">@(Globals.UseF ? "F\u00b0" : "C\u00b0")</span></Switch>
-    </div>
-</div>
+}
 
 @code
 {
@@ -50,6 +95,12 @@
     private Offcanvas _offcanvasRef = new();
     private bool _cancelClose;
     private bool _loading;
+
+    protected override Task OnInitializedAsync()
+    {
+        Globals.detectMobile(DetectionService.Device.Type == Device.Mobile);
+        return base.OnInitializedAsync();
+    }
 
     private Task ChangeLocation()
     {
@@ -99,11 +150,6 @@
     {
         e.Cancel = _cancelClose || e.CloseReason != CloseReason.UserClosing;
         return Task.CompletedTask;
-    }
-
-    private string ForC()
-    {
-        return Globals.UseF ? "\u00b0F" : "\u00b0C";
     }
 
     private Task GetCurrentLocation()

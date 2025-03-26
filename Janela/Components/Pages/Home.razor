@@ -7,18 +7,11 @@
 <PageTitle>Janela</PageTitle>
 @if (_errorFlag)
 {
-    <Alert Color="Color.Danger" Visible Style="z-index: 50;">
+    <Alert Color="Color.Danger" Visible Style="z-index: 50;" Dismisable>
         <AlertMessage>Error: </AlertMessage>
         <AlertDescription>
-            There was a problem loading weather or location data.<br/>    
+            There was a problem loading weather or location data: @_errorMessage<br/>    
         </AlertDescription>
-        <Dropdown>
-            <DropdownToggle Color="Color.Danger">Learn More</DropdownToggle>
-            <DropdownMenu>
-                <DropdownItem Disabled="true" TextColor="TextColor.Dark">This happens most often because the location you searched for is invalid or not found.<br/>It can also occur when weather or location info are not available in Latin Alphabet characters (Cryllic, Malayalam, etc.)</DropdownItem>
-                <DropdownItem Disabled="true" TextColor="TextColor.Dark">Raw error data: @_errorMessage</DropdownItem>
-            </DropdownMenu>
-        </Dropdown>
         <CloseButton/>
     </Alert>
 }

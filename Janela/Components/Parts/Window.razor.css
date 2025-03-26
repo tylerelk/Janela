@@ -10,16 +10,14 @@ span {
     overflow-x: hidden;
     background: #0a0c5d;
     background: -webkit-linear-gradient(180deg, #0a0c5d 0%, #3b3c72 40%, rgba(0, 0, 0, 0) 100%);
-    background: linear-gradient(180deg, #0a0c5d 0%, #3b3c72 40%, rgba(0, 0, 0, 0) 100%);
-    z-index: 2000;
+    background: linear-gradient(180deg, #0a0c5d 0%, #3b3c72 40%, rgba(0, 0, 0, 0) 100%);;
 }
 
 #glass {
-    width: 40%;
     margin: 2rem auto;
     padding: 1rem;
     border-radius: 1rem;
-    z-index: 2;
+    z-index: 9998;
     p, h1, h3 {
         color: black;
     }
