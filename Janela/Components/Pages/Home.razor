@@ -1,6 +1,8 @@
 ﻿@page "/"
 @using Janela.Data
 @using Janela.Data.Services.Classes
+@using Wangkanai.Detection.Models
+@inject Wangkanai.Detection.Services.IDetectionService DetectionService
 @inject IWeatherService WeatherService
 @inject ILocationService LocationService
 
@@ -53,6 +55,11 @@ else
     private bool _errorFlag = false;
     private string _errorMessage = string.Empty;
     private string? _backgroundImageUrl;
+
+    protected override void OnInitialized()
+    {
+        Globals.setMobile(DetectionService.Device.Type == Device.Mobile); 
+    }
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {

@@ -32,26 +32,6 @@
 @code {
     [Parameter] public required Forecast Forecast { get; set; }
     [Parameter] public required string Location { get; set; }
-    private string? _backgroundImageUrl;
-
-    protected override async Task OnAfterRenderAsync(bool firstRender)
-    {
-        await GetBackgroundUrl();
-    }
-
-    private async Task GetBackgroundUrl()
-    {
-        try
-        {
-            if (Globals.Location != null) _backgroundImageUrl = await LocationService.GetLocationImageUrl(Location);
-        }
-        catch (Exception e)
-        {
-            Console.WriteLine(e);
-            throw;
-        }
-        StateHasChanged();
-    }
 
     private static string FormatDate(string date)
     {

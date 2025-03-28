@@ -25,7 +25,12 @@ public class LocationService : ILocationService
     public async Task<Coordinates> GetCurrentLocation()
     {
         var location = await JsRuntime.InvokeAsync<Coordinates>("getGeolocation");
-        return location;
+        if (location != null)
+        {
+            Globals.GeoLocation = location;
+            return Globals.GeoLocation;
+        }
+        return new Coordinates();
     }
 
     public async Task<string?> GetLocationImageUrl(string location)

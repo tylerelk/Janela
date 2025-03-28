@@ -4,6 +4,7 @@ using Blazorise.Tailwind;
 using Janela.Components;
 using Janela.Data;
 using Janela.Data.Services;
+using Microsoft.AspNetCore.Mvc.ModelBinding.Binders;
 using Microsoft.Extensions.Options;
 
 var builder = WebApplication.CreateBuilder(args);
