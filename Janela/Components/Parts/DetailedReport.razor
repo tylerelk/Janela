@@ -2,7 +2,7 @@
 @using Janela.Data.Services.Classes
 @inject Globals Globals
 
-<div class="w-full p-4 grid grid-cols-3 grid-rows-1 gap-3">
+<div class="@($"w-full p-4 gap-3 {(Globals.IsMobile ? "flex flex-col" : "grid grid-cols-3 grid-rows-1")}")">
     <div class="rounded-lg shadow-lg p-2 col-span-2 flex-col"
          style="background: rgba(50, 50, 50, 0.8);
                     backdrop-filter: blur(10px);
