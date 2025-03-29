@@ -1,7 +1,8 @@
-﻿@using Janela.Data.Services.Classes
+﻿@using Janela.Data
+@using Janela.Data.Services.Classes
 
 
-<div class="w-1/2 flex-col gap-2 mx-auto my-2">
+<div class=@($"flex-col gap-2 mx-auto my-2 {(Globals.IsMobile ? "w-full" : "w-1/2")}")>
     @foreach (var a in WeatherAlerts.alert)
     {
         <Alert Color="Color.Dark" Visible>

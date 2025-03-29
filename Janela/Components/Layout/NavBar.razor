@@ -7,7 +7,7 @@
 {
     <Bar ThemeContrast="ThemeContrast.Dark" Mode="BarMode.VerticalInline" Style="z-index: 9999">
         <BarBrand>
-            <BarLink To="/">
+            <BarLink To="/" TextSize="TextSize.Heading4">
                 Janela
             </BarLink>
         </BarBrand>
@@ -19,7 +19,7 @@
                         <BarDropdownMenu>
                             <BarDropdownItem>
                                 <div class="flex justify-around items-center gap-2">
-                                    <input type="text" @bind="_userInput" placeholder="Location" class="rounded-lg"/>
+                                    <input type="text" @bind="_userInput" placeholder="Location" class="rounded-lg" style="color: #000000"/>
                                     <button class="bg-gray-800 text-white font-extralight rounded-lg p-2" @onclick="ChangeLocation">
                                         <Icon Name="IconName.Search"/>
                                     </button>
@@ -31,18 +31,21 @@
                             <BarDropdownDivider/>
                             <BarDropdownItem>
                                 <div class="w-full h-auto m-auto">
-                                    <Label>Cold Point:</Label>
+                                    <Label>Cold Point: @((int)(Globals.UseF ? ConvertToF(_coldPoint) : _coldPoint)) @ForC()</Label>
                                     <Field>
                                         <Slider TValue="double" @bind-Value="_coldPoint" Min="-100" Max="100"/>
-                                        <p>I feel cold at about @((int)(Globals.UseF ? ConvertToF(_coldPoint) : _coldPoint)) @ForC()</p>
                                     </Field>
-                                    <Label>Hot Point:</Label>
+                                    <Label>Hot Point: @((int)(Globals.UseF ? ConvertToF(_hotPoint) : _hotPoint)) @ForC()</Label>
                                     <Field>
                                         <Slider TValue="double" @bind-Value="_hotPoint" Min="-100" Max="100"/>
-                                        <p>I feel hot at about @((int)(Globals.UseF ? ConvertToF(_hotPoint) : _hotPoint)) @ForC()</p>
                                     </Field>
                                     <Button Color="Color.Dark" Clicked="@ChangeHeatPoints">Update</Button>
                                 </div>
+                            </BarDropdownItem>
+                            <BarDropdownDivider/>
+                            <BarDropdownItem>
+                                <Label>Units:</Label>
+                                <Switch TValue="bool" @bind-Checked="@Globals.UseF"><span class="text-white">@(Globals.UseF ? "F\u00b0" : "C\u00b0")</span></Switch>
                             </BarDropdownItem>
                         </BarDropdownMenu>
                     </BarDropdown>
