@@ -28,7 +28,7 @@ builder.Services.AddRazorComponents()
     .AddInteractiveServerComponents();
 builder.Services.AddHttpClient();
 //Add Weather and Location services
-builder.Services.AddSingleton<IWeatherService, WeatherService>();
+builder.Services.AddScoped<IWeatherService, WeatherService>();
 builder.Services.AddTransient<ILocationService, LocationService>();
 builder.Services.AddScoped<Globals>();
 //Add Blazorise
